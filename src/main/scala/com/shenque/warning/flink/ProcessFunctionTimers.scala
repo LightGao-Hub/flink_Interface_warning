@@ -1,6 +1,7 @@
 package com.shenque.warning.flink
 
 import java.util.concurrent.TimeUnit
+
 import com.alibaba.fastjson.JSON
 import com.shenque.warning.config.KafkaConfig
 import com.shenque.warning.entity.{Demo, LogEntity}
@@ -8,7 +9,7 @@ import com.shenque.warning.util.{EmailThread, JavaReadProperties}
 import org.apache.flink.api.common.restartstrategy.RestartStrategies
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.api.scala._
-import org.apache.flink.api.common.state.{ValueState, ValueStateDescriptor}
+import org.apache.flink.api.common.state.{MapState, MapStateDescriptor, ValueState, ValueStateDescriptor}
 import org.apache.flink.api.scala.typeutils.Types
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.runtime.state.filesystem.FsStateBackend
@@ -31,8 +32,6 @@ object ProcessFunctionTimers extends Serializable {
   def main(args: Array[String]) {
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
-    env.setBufferTimeout(10)
-    env.setParallelism(3)
     //处理时间语义
     env.setStreamTimeCharacteristic(TimeCharacteristic.ProcessingTime)
     //配置检查点
@@ -109,7 +108,7 @@ class TempIncreaseAlertFunction
       }
       //注册半小时后的计时器
       logger.info(s" 注册 : ${r.getPROJECT_ACTION}  计时器，半小时后执行")
-      val timerTs = ctx.timerService().currentProcessingTime() + 1000 * 60
+      val timerTs = ctx.timerService().currentProcessingTime() + 1000 * 60 * 30
       ctx.timerService().registerProcessingTimeTimer(timerTs)
     }
   }
