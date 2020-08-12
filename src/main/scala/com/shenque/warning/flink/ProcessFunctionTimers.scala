@@ -49,7 +49,7 @@ object ProcessFunctionTimers extends Serializable {
     env.getCheckpointConfig.enableExternalizedCheckpoints(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION)
 
     env.setRestartStrategy(RestartStrategies.fixedDelayRestart(
-      3, // 重启尝试次数
+      3, // 重启尝试次数阿斯蒂芬
       org.apache.flink.api.common.time.Time.of(5, TimeUnit.SECONDS)
     ));
 
