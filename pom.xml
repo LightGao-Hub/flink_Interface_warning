@@ -15,7 +15,7 @@
         <flink.version>1.7.1</flink.version>
         <scala.binary.version>2.11</scala.binary.version>
         <scala.version>2.11.8</scala.version>
-        <fastjson.version>1.2.34</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
     </properties>
 
     <dependencies>
